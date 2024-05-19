@@ -35,6 +35,16 @@ function delete_share() {
     systemctl restart smbd
 }
 
+#!/bin/bash
+
+# Check if Samba is installed
+if ! dpkg -s samba &> /dev/null; then
+    echo "Samba is not installed. Installing Samba..."
+    apt-get update
+    apt-get install -y samba
+    echo "Samba installed successfully."
+fi
+
 while true; do
     echo "1. Add Samba Share"
     echo "2. Delete Samba Share"
