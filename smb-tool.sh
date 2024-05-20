@@ -4,24 +4,22 @@ function add_share() {
     read -p "Enter the share name: " share_name
     read -p "Enter the path to the shared folder: " share_path
     read -p "Enter the username with acces to the share (empty for all): " share_user
-
-    # Create the directory for the shared folder
     mkdir -p $share_path
-
-    # Configure the Samba share
-    cat << EOF >> /etc/samba/smb.conf
+    
 
 
-# We check the status of share_user_variable. If Empty the share is set for all users. 
 
-if [ -n "$share_user" ]
+
+if [ -n " $share_user " ]
 then
-    valid_user_line="valid user = @$share_user"
+    valid_user_line= "valid user = @$share_user"
 else
-    valid_user_line=""
+    valid_user_line= ""
 fi
 
-echo "[$share_name]
+cat << EOF >> /etc/samba/smb.conf
+
+[$share_name]
     comment = $share_name
     path = $share_path
     $valid_user_line
@@ -29,7 +27,7 @@ echo "[$share_name]
     read only = no
     guest ok = yes
     create mask = 0777
-    directory mask = 0777"
+    directory mask = 0777 
 
 EOF
 
