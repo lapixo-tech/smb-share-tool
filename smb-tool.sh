@@ -46,6 +46,8 @@ if ! dpkg -s samba &> /dev/null; then
 fi
 
 while true; do
+    
+    echo ">>> SAMBA TOOLBOX <<<"
     echo "1. Add Samba Share"
     echo "2. Delete Samba Share"
     echo "3. Exit"
