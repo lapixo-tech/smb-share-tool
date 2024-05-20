@@ -13,16 +13,16 @@ function add_share() {
         valid_user_line=""
     fi
      
-cat << EOF >> /etc/samba/smb.conf
-[$share_name]
-comment = $share_name
-path = $share_path
-$valid_user_line
-browseable = yes
-read only = no
-guest ok = yes
-create mask = 0777
-directory mask = 0777
+    cat << EOF >> /etc/samba/smb.conf
+
+    [$share_name]
+    path = $share_path
+    $valid_user_line
+    writable = Yes
+    create mask = 0777
+    directory mask = 0777
+    public = no
+    
 EOF
 
         
@@ -31,6 +31,19 @@ EOF
     
 
     }
+
+
+function add_samba_usar() {
+
+    read -p "Enter the user to create a SMB password: " smb_user
+    read -p -s "Enter The password: " smb_pass
+
+    smbpasswd -a $smb_user 
+
+    ente
+
+}
+
 
 function delete_share() {
     read -p "Enter the share name to delete: " share_name
