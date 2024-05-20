@@ -7,10 +7,10 @@ function add_share() {
     mkdir -p $share_path
     
 
+echo "$share_user"
 
 
-
-if [ -n " $share_user " ]
+if [ -n "$share_user" ]
 then
     valid_user_line= "valid user = @$share_user"
 else
