@@ -5,40 +5,32 @@ function add_share() {
     read -p "Enter the path to the shared folder: " share_path
     read -p "Enter the username with acces to the share (empty for all): " share_user
     mkdir -p $share_path
-    
-
-echo "$share_user"
 
 
-if [ -n "$share_user" ]
-
-then
-    
-    valid_user_line = "valid user = @$share_user"
-
-else
-
-    valid_user_line = ""
-
-fi
-
+    if [[ -n "$share_user" ]]; then
+        valid_user_line="valid user = @$share_user"
+    else
+        valid_user_line=""
+    fi
+     
 cat << EOF >> /etc/samba/smb.conf
-
 [$share_name]
-    comment = $share_name
-    path = $share_path
-    $valid_user_line
-    browseable = yes
-    read only = no
-    guest ok = yes
-    create mask = 0777
-    directory mask = 0777 
-
+comment = $share_name
+path = $share_path
+$valid_user_line
+browseable = yes
+read only = no
+guest ok = yes
+create mask = 0777
+directory mask = 0777
 EOF
 
+        
     # Restart the Samba service
     systemctl restart smbd
-}
+    
+
+    }
 
 function delete_share() {
     read -p "Enter the share name to delete: " share_name
