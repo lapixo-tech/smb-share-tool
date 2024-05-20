@@ -22,7 +22,7 @@ function add_share() {
     create mask = 0777
     directory mask = 0777
     public = no
-    
+
 EOF
 
         
@@ -33,11 +33,10 @@ EOF
     }
 
 
-function add_samba_usar() {
+function add_samba_user() {
 
-    read -p "Enter the user to create a SMB password: " smb_user
-    read -p -s "Enter The password: " smb_pass
-
+    read -p "Enter the username for the new samba user: " smb_user
+    
     smbpasswd -a $smb_user 
 
     ente
@@ -55,7 +54,7 @@ function delete_share() {
     systemctl restart smbd
 }
 
-#!/bin/bash
+
 
 # Check if Samba is installed
 if ! dpkg -s samba &> /dev/null; then
@@ -70,7 +69,8 @@ while true; do
     echo ">>> SAMBA TOOLBOX <<<"
     echo "1. Add Samba Share"
     echo "2. Delete Samba Share"
-    echo "3. Exit"
+    echo "3. Add Samba User"
+    echo "4. Exit"
 
     read -p "Choose an option (1-3): " option
 
@@ -84,9 +84,16 @@ while true; do
             delete_share
             ;;
         3)
+
+            echo "Create samba user..."
+            add_samba_user
+            ;;        
+        
+        4)
             echo "Exiting..."
             exit 0
             ;;
+        
         *)
             echo "Invalid option. Try again."
             ;;
