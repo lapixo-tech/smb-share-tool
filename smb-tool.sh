@@ -11,10 +11,15 @@ echo "$share_user"
 
 
 if [ -n "$share_user" ]
+
 then
-    valid_user_line= "valid user = @$share_user"
+    
+    valid_user_line = "valid user = @$share_user"
+
 else
-    valid_user_line= ""
+
+    valid_user_line = ""
+
 fi
 
 cat << EOF >> /etc/samba/smb.conf
