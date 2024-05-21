@@ -1,5 +1,22 @@
 #!/bin/bash
 
+function set_samba() {
+
+        SMB_CONF_FILE=/etc/samba/smb.conf
+        SMB_SHARE_CONF_DIR=/etc/samba/smb.conf.d/
+        SMB_INCLUDES_FILE=/etc/samba/includes.conf
+
+        if !  grep -q 'include = '"${SMB_INCLUDES_FILE}" $SMB_CONF_FILE ; then
+
+            echo 'include = '"${SMB_INCLUDES_FILE}" | tee -a $SMB_CONF_FILE > /dev/null
+        fi
+
+        mkdir -p $SMB_SHARE_CONF_DIR 
+
+    }
+
+#function get_existing_shares() {}
+
 function add_share() {
     read -p "Enter the share name: " share_name
     read -p "Enter the path to the shared folder: " share_path
@@ -12,8 +29,12 @@ function add_share() {
     else
         valid_user_line=""
     fi
-     
-    cat << EOF >> /etc/samba/smb.conf
+
+    touch /etc/samba/smb.conf.d/$share_name.conf
+
+
+
+    cat << EOF >> /etc/samba/smb.conf.d/$share_name.conf
 
     [$share_name]
     path = $share_path
@@ -25,7 +46,7 @@ function add_share() {
 
 EOF
 
-        
+    echo "include = /etc/samba/smb.conf.d/$share_name.conf" >> /etc/samba/includes.conf
     # Restart the Samba service
     systemctl restart smbd
     
@@ -54,7 +75,7 @@ function delete_share() {
     systemctl restart smbd
 }
 
-
+set_samba
 
 # Check if Samba is installed
 if ! dpkg -s samba &> /dev/null; then
