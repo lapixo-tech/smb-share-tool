@@ -24,5 +24,6 @@ Alternative you can copy the script to `/usr/local/bin` and run it from anyware 
 sudo cp smb-tool.sh /usr/local/bin
 ```
 
+Then te Menu will be presented, follow the inline instructions to create your shares and delete them if necesary. 
 
 
