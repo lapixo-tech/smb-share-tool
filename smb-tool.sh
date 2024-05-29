@@ -46,6 +46,8 @@ function add_share() {
 
 EOF
 
+    echo "Setting ownership of $share_path for user $shared_user" 
+    chown $share_user:$share_user $share_path 
     echo "include = /etc/samba/smb.conf.d/$share_name.conf" >> /etc/samba/includes.conf
     # Restart the Samba service
     systemctl restart smbd
