@@ -68,10 +68,67 @@ function add_samba_user() {
 
 
 function delete_share() {
-    read -p "Enter the share name to delete: " share_name
+    
+    
+    
+    SMB_SHARE_CONF_DIR=/etc/samba/smb.conf.d/
+
+    # List all .conf files in the directory
+    conf_files=($SMB_SHARE_CONF_DIR*.conf)
+    
+    # Check if any .conf files exist
+    if [ ${#conf_files[@]} -eq 0 ]; then
+        echo "No .conf files found for samba shares"
+        return
+    fi
+
+    IFS=$'\n'
+    config_files=($(sort <<<"${config_files[*]}"))
+    unset IFS 
+    # Display the menu options
+    echo "Select the samba share to delete:"
+    for (( i=0; i<${#conf_files[@]}; i++ )); do
+        share_name_temp=$(basename "${conf_files[i]}")
+        share_name="${share_name_temp%.*}"
+        echo "$((i+1)). ${share_name}"
+    done
+
+    # Read the user's selection
+    read -p "Enter the number of the file to delete: " file_number
+
+    # Validate the input
+    if [[ $file_number =~ ^[0-9]+$ ]]; then
+        # Verify if the selected number is within the range
+        if (( file_number >= 1 && file_number <= ${#conf_files[@]} )); then
+            # Get the selected file name
+            file_name_path=${conf_files[file_number-1]}
+            
+            # Remove the file
+            rm "$file_name_path"
+
+            #removing line from includes.conf
+
+            grep -v "$file_name_path" /etc/samba/includes.conf > /etc/samba/includes.conf.temp
+            mv /etc/samba/includes.conf.temp /etc/samba/includes.conf
+
+            share_name_temp=$(basename "${file_name_path}")
+            share_name="${share_name_temp%.*}"
+
+            echo "Samba share: $share_name deleted successfully."
+        else
+            echo "Invalid input. Please enter a valid number."
+        fi
+    else
+        echo "Invalid input. Please enter a valid number."
+    fi
+
+
+    ## delete share typing name
+
+    ##read -p "Enter the share name to delete: " share_name
 
     # Remove the Samba share configuration
-    sed -i "/^\[$share_name\]/,/^$/d" /etc/samba/smb.conf
+    ## sed -i "/^\[$share_name\]/,/^$/d" /etc/samba/smb.conf
 
     # Restart the Samba service
     systemctl restart smbd
