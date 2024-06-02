@@ -18,8 +18,8 @@ function set_samba() {
 #function get_existing_shares() {}
 
 function add_share() {
-    read -p "Enter the share name ('.' for working directory ): " share_name
-    read -p "Enter the path to the shared folder: " share_path
+    read -p "Enter the share name: " share_name
+    read -p "Enter the path to the share ('.' for working directory ): " share_path
     # Check if share path exists
 
     if [ "${share_path}" = "." ]; then
