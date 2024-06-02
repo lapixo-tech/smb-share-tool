@@ -21,6 +21,11 @@ function add_share() {
     read -p "Enter the share name: " share_name
     read -p "Enter the path to the shared folder: " share_path
     # Check if share path exists
+
+    if ! [ "${share_path:0:1}" = "." ]; then
+        share_path="$(pwd)/"
+    fi  
+
     if [ -d "$share_path" ]; then
         echo "-> Share path already exists .. nothing to do"
     else
@@ -62,6 +67,17 @@ EOF
     echo "include = /etc/samba/smb.conf.d/$share_name.conf" >> /etc/samba/includes.conf
     # Restart the Samba service
     systemctl restart smbd
+    echo "-> Samba Restarted"
+    echo "-> Access the share Widnows: \\[THIS SERVER IP]if ! [ "${share_path:0:1}" = "/" ]; then
+    share_path="$PWD/$share_path"
+fi
+
+if [ -d "$share_path" ]; then
+    echo "Share path already exists"
+else
+    mkdir -p "$share_path"
+    echo "Share path created successfully"
+fi
     
 
     }
