@@ -70,7 +70,7 @@ EOF
     echo "-> Samba Restarted"
     echo "-> Access the share in Widnows: \\[THIS SERVER IP]\{$share_name}"
     echo "-> Access the share in Linux: smb://[THIS SERVER IP]\{$share_name}"
-fi
+
 
 if [ -d "$share_path" ]; then
     echo "Share path already exists"
