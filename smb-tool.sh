@@ -91,7 +91,6 @@ function add_samba_user() {
     smbpasswd -a $smb_user 
     systemctl restart smbd
 
-    ente
 
 }
 
