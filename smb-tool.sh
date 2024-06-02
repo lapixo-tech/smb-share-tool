@@ -22,8 +22,9 @@ function add_share() {
     read -p "Enter the path to the shared folder: " share_path
     # Check if share path exists
 
-    if ! [ "${share_path:0:1}" = "." ]; then
+    if ! [ "${share_path}" = "." ]; then
         share_path="$(pwd)/"
+        echo "-> Shared directory is working directory $(pwd)"
     fi  
 
     if [ -d "$share_path" ]; then
