@@ -89,6 +89,7 @@ function add_samba_user() {
     read -p "Enter the username for the new samba user: " smb_user
     
     smbpasswd -a $smb_user 
+    systemctl restart smbd
 
     ente
 
