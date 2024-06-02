@@ -68,8 +68,8 @@ EOF
     # Restart the Samba service
     systemctl restart smbd
     echo "-> Samba Restarted"
-    echo "-> Access the share Widnows: \\[THIS SERVER IP]if ! [ "${share_path:0:1}" = "/" ]; then
-    share_path="$PWD/$share_path"
+    echo "-> Access the share in Widnows: \\[THIS SERVER IP]\{$share_name}"
+    echo "-> Access the share in Linux: smb://[THIS SERVER IP]\{$share_name}"
 fi
 
 if [ -d "$share_path" ]; then
