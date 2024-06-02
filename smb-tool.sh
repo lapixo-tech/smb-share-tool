@@ -20,8 +20,19 @@ function set_samba() {
 function add_share() {
     read -p "Enter the share name: " share_name
     read -p "Enter the path to the shared folder: " share_path
+    # Check if share path exists
+    if [ -d "$share_path" ]; then
+        echo "-> Share path already exists .. nothing to do"
+    else
+        # Create the directory if it doesn't exist
+        mkdir -p "$share_path"
+        echo "-> Directory does not exist - creating..." 
+        echo "-> Share path created successfully"
+    fi
+
     read -p "Enter the username with acces to the share (empty for all): " share_user
-    mkdir -p $share_path
+
+
 
 
     if [[ -n "$share_user" ]]; then
